@@ -9,6 +9,8 @@ import { Button } from './_components/ui/button'
 import Link from 'next/link'
 import { getServerSession } from 'next-auth'
 import { authOptions } from './_lib/auth'
+import { ptBR } from 'date-fns/locale/pt-BR'
+import { format } from 'date-fns'
 
 const Home = async () => {
   const session = await getServerSession(authOptions)
@@ -44,8 +46,13 @@ const Home = async () => {
     <div>
       <Header />
       <div className="p-5">
-        <h2 className="text-xl font-bold">Olá, Gustavo!</h2>
-        <p className="text-sm text-muted-foreground">Sabado, 22 de Março.</p>
+        <h2 className="text-xl font-bold">
+          Olá, {session?.user ? session.user.name : 'Bem vindo'}!
+        </h2>
+        <p>
+          <span className="capitalize">{format(new Date(), 'EEEE, dd ', { locale: ptBR })}</span>
+          <span> de {format(new Date(), 'MMMM', { locale: ptBR })}</span>
+        </p>
 
         <div className="mt-6">
           <Search />
